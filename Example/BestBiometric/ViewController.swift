@@ -7,12 +7,18 @@
 //
 
 import UIKit
-
+import BestBiometric
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        let biometric = Biometric.getPermission()
+        if biometric == false {
+            //settings
+            UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
+        }
+//        biometric.getPer
     }
 
     override func didReceiveMemoryWarning() {

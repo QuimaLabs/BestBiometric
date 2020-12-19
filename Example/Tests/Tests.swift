@@ -13,9 +13,10 @@ class Tests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testDontAllow() {
         // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+        let permission = Biometric.getPermission()
+        XCTAssertFalse(permission, "Dont Allow Permission")
     }
     
     func testPerformanceExample() {
