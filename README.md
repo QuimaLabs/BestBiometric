@@ -22,7 +22,7 @@ pod 'BestBiometric'
 
 ## Author
 
-aquima, raul.quispe@globant.com
+aquima, raul.quispe@live.com
 
 ## License
 
