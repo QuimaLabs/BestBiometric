@@ -35,4 +35,18 @@ public class Biometric: NSObject {
 //                               localizedReason: "Son necesarios los datos biométricos para validar que eres tu.") { (success,
 //                                                                evaluateError) in
     }
+    
+    func save(for userName: String, password: String, serviceName: String, accessGroup: String?) -> Bool {
+        
+        let passwordItem = KeychainPasswordItem(service: serviceName,
+                                                account: userName,
+                                                accessGroup: accessGroup)
+        
+        do {
+            try passwordItem.savePassword(password)
+            return true
+        }catch{
+            return false
+        }
+    }
 }
