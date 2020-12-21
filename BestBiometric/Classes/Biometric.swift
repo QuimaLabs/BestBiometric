@@ -103,6 +103,17 @@ public class Biometric: NSObject {
         }
     }
     
+    public func delete(for userName: String) -> Bool {
+        let passwordItem = getPasswordItem(for: userName)
+        do {
+            try passwordItem.deleteItem()
+            return true
+        } catch let error as NSError {
+            print("Error on delete: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
     private func getPasswordItem(for userName: String) -> KeychainPasswordItem {
         return KeychainPasswordItem(service: KeychainConfiguration.serviceName,
                                     account: userName,

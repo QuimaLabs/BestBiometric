@@ -27,14 +27,22 @@ class ViewController: UIViewController {
             return
         }
         
-        let username = "alda"
+        var username = "alda"
         let password = "369"
         let resultSave = bioInstance.save(for: username, password: password)
         print("Result save: \(resultSave)")
 
         let resultRead = bioInstance.read(for: username)
-        
         print("Result read: \(resultRead)")
+        
+        
+//        username = "as1231"
+        let resultDelete = bioInstance.delete(for: username)
+        
+        print("Result delete: \(resultDelete)")
+        
+        let resultRead2 = bioInstance.read(for: username)
+        print("Result read 2: \(resultRead2)")
     }
 
     //MARK: - Methods
