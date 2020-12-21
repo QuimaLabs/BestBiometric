@@ -14,15 +14,27 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let biometric = Biometric.getPermission()
-        if biometric == false {
-            //settings
-            UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
+//        let biometric = Biometric.getPermission()
+//        if biometric == false {
+//            //settings
+//            UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
+//        }
+        
+        ///Test
+        let bioInstance = Biometric()
+        
+        guard bioInstance.isAvailableBiometricsAuth() else {
+            return
         }
         
-        let result = save()
-        print("Result save: \(result)")
-//        biometric.getPer
+        let username = "alda"
+        let password = "369"
+        let resultSave = bioInstance.save(for: username, password: password)
+        print("Result save: \(resultSave)")
+
+        let resultRead = bioInstance.read(for: username)
+        
+        print("Result read: \(resultRead)")
     }
 
     //MARK: - Methods

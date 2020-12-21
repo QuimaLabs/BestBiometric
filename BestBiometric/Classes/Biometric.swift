@@ -25,11 +25,11 @@ public class Biometric: NSObject {
     
     
     //MARK: - Methods
-    func isAvailableBiometricsAuth() -> Bool {
+    public func isAvailableBiometricsAuth() -> Bool {
         return authenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
     }
     
-    func isValidAuthentication(completion: @escaping (_ success: Bool) -> Void) {
+    public func isValidAuthentication(completion: @escaping (_ success: Bool) -> Void) {
         guard isAvailableBiometricsAuth() else {
             completion(false)
             return
@@ -80,19 +80,32 @@ public class Biometric: NSObject {
         
         
         do {
-          let passworItem = KeychainPasswordItem(service: KeychainConfiguration.serviceName,
-                                                 account: userName,
-                                                 accessGroup: KeychainConfiguration.accessGroup)
-            
-            let arrayPass = try KeychainPasswordItem.passwordItems(forService: KeychainConfiguration.serviceName)
-            
-            print(arrayPass)
-            
+          let passworItem = getPasswordItem(for: userName)
+//            KeychainPasswordItem(service: KeychainConfiguration.serviceName,
+//                                                 account: userName,
+//                                                 accessGroup: KeychainConfiguration.accessGroup)
             try passworItem.savePassword(password)
+            return true
         } catch {
-          fatalError("Error updateing keychan - \(error)")
+//          fatalError("Error updateing keychan - \(error)")
             return false
         }
-        return true
+    }
+    
+    public func read(for userName: String) -> String? {
+        let passwordItem = getPasswordItem(for: userName)
+        do {
+            let keychainPassword = try passwordItem.readPassword()
+            return keychainPassword
+        } catch let error {
+            debugPrint(error.localizedDescription)
+            return nil
+        }
+    }
+    
+    private func getPasswordItem(for userName: String) -> KeychainPasswordItem {
+        return KeychainPasswordItem(service: KeychainConfiguration.serviceName,
+                                    account: userName,
+                                    accessGroup: KeychainConfiguration.accessGroup)
     }
 }
