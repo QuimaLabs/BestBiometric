@@ -8,31 +8,30 @@
  note:
  Add on info.plist Privacy FaceID and touch id is write in code description
  */
-import LocalAuthentication
+public typealias ResultPermission = (Bool,Error?) -> Void
 
 @objc
 public class Biometric: NSObject {
-    
-    @objc public class func getPermission() -> Bool {
-        let context = LAContext()
-        //false only when is unavailable from setting or dont allow permission
-        let canUseBiometric = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
-        guard canUseBiometric else {
-            //go to settings
-            
-            return false
-        }
-        //get Permission
-        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
-                               localizedReason: "Son necesarios los datos biométricos para validar que eres tu.",
-                               reply: {result,error in
-                                if(result){
-                                    
-                                }
-        })
-        return false
-//        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
-//                               localizedReason: "Son necesarios los datos biométricos para validar que eres tu.") { (success,
-//                                                                evaluateError) in
+
+    @objc public class func getPermission(resultPermission: @escaping ResultPermission) {
+        
+       let localAuth = LocalAuth()
+        localAuth.getPermission(resultPermission: resultPermission)
     }
+    @objc public class func saveValue(_ value: String, withID identifierKey:String) {
+        
+       let localAuth = LocalAuth()
+       localAuth.saveData(value: value, identifierKey: identifierKey)
+    }
+    
+    @objc public class func deleteValue(_ value: String, withID identifierKey:String) {
+       let localAuth = LocalAuth()
+       localAuth.deleteData(value: value, identifierKey: identifierKey)
+    }
+    
+    @objc public class func readValue(_ value: String, withID identifierKey:String) {
+       let localAuth = LocalAuth()
+       localAuth.readData(identifierKey: identifierKey)
+    }
+    
 }
